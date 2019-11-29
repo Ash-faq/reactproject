@@ -1,26 +1,83 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class UnmountComponent extends React.Component{
+
+  //Unmounting
+  componentWillUnmount(){
+
+  }
+
+  render(){
+    return(
+      <div>
+        <h1>Toggle Component</h1>
+      </div>
+    )
+  }
 }
+
+class App extends React.Component{
+
+  //Mounting
+  constructor(props){
+    super(props);
+    this.state ={
+      project: "RBS"
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    return null;// { project: "MSS" };
+  }
+
+  componentDidMount(){
+    //this is place where we can do API call
+  }
+
+  //Updating Phase
+  //getDerivedStateFromProps will call again in updating phase
+  shouldComponentUpdate(nextProps,nextState){
+    return true;
+  }
+
+
+  getSnapshotBeforeUpdate(prevProps,prevState){
+    return { oldProject: prevState.name }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+  }
+
+  handleClick = () =>{
+    this.setState({
+      project: "MSS 2.0"
+    })
+  }
+
+  handleToggle = () => {
+    this.setState({
+      isComponentVisible: !this.state.isComponentVisible
+    })
+  }
+
+  render(){
+    return(
+      <div>
+        <h1>React Session</h1>
+        <p>{this.state.project}</p>
+        <button onClick={this.handleClick}>Click me</button>
+        {
+          this.state.isComponentVisible ? <UnmountComponent /> : null
+        }
+        <button onClick={this.handleToggle}>Toggle Comp</button>
+      </div>
+    )
+  }
+}
+
+
+
 
 export default App;
